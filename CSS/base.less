@@ -1,0 +1,57 @@
+    // 进行浏览器元素标签初始化，去掉每个浏览器自带属性
+html,body,div,ul,li,i,p,img,a,input,button {
+    margin: 0;
+    padding: 0;
+}
+ul,li,ol {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+input {
+    outline: none;
+}
+
+    // 实际开发常用类
+.w {
+    width: 1200px;
+    margin: 0 auto;
+}
+.activ {
+    color: #c81623;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.hidden {
+    display: none;
+}
+.clear {
+    zoom:1;
+}
+.clearfix:before,clearfix:after {
+    content: "";
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+    // 表单元素内在placeholder字体在各浏览器改变的兼容代码
+.error::input-placeholder{
+    color: #FF0000 !important;
+}
+.error::-webkit-input-placeholder { /* WebKit browsers */ 
+    color: #FF0000 !important; 
+} 
+.error:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+    color: #FF0000 !important; 
+} 
+.error::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+    color: #FF0000 !important; 
+} 
+.error:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+    color: #FF0000 !important; 
+} 
