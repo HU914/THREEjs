@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>小风车</title>
+        <link rel="stylesheet" href="../common/base.css">
+        <link rel="stylesheet" href="./index.css">
+        <script src="https://cdn.bootcss.com/jquery/1.12.2/jquery.js"></script>
+        <style>
+            button {
+                display: inline-block;
+                width: 1rem;
+            }
+
+        </style>
+    </head>
+    <body>
+        <button class="tt">复制</button>
+       
+        <div class="warp ">
+            <div class="inner">
+                <div class="box qian">
+                   前   
+                </div>
+                <div class="box hou">后</div>
+                <div class="box left">左</div>
+                <div class="box right">
+                 右
+                </div>
+                <div class="box top">上</div>
+                <div class="box bottom">下</div>
+            </div>
+        </div> 
+
+
+
+    </body>
+    <script>
+    var ww;
+        $(function(){
+
+            var rotx = 30 ,
+                rotY = -40 ,
+                cutx = 0 ,
+                cutY = 0 ;
+    
+            $("button").click(function(){
+                $(".warp").clone().appendTo("body");
+            })
+                // 开始
+            $(".warp").mousedown(function(e){
+                cutx = e.clientX,cutY = e.clientY;
+                e.preventDefault();
+    
+            })
+           
+                // 过程
+            $(".warp").mousemove(function(e){
+                var Y = e.clientY - cutY,
+                X = e.clientX - cutx;
+                // Math.atan2(X,Y)/Math.PI*180
+                // cutx = e.clientX , cutY = e.clientY ;
+                rotx +=X,rotY+=Y;
+                if(rotx >= 180){
+                        rotx += 360;
+                    }
+                    else if(rotx<=(-180)){
+                            rotx -= 360;
+                        }
+                        if( rotY >=180){
+                                rotY -= 360;
+                            }
+                            else if(rotY<=(-180)){
+                                    rotY += 360;
+            }
+            $(".inner").css({
+                transform:'rotateX('+ Y+'deg) rotateY('+X+'deg)'
+            })
+            console.log(X,Y);
+            e.preventDefault();
+            })
+                // 结束
+            $(".warp").mouseup(function(e){
+                e.preventDefault();
+                
+            })
+        
+        })
+        var deviceWidth = document.documentElement.clientWidth;
+              /*   
+                6.4根据640设计稿在设备上做的一个开发基础值，
+                基础值由为了更好开发，将根元素font-size设置为100px，
+                取100只是为了计算方便，减少浮点数对布局的影响
+                1REM=100px；
+                如果设计稿是750，
+                因为屏幕是偶数，宽度只能是偶数，不能出现7.5，所以750的设计稿不能默认设置100px，
+                得到7.5来使用，它是一个单数，
+                为了更好地开发，我们设置它为75px，750的设计稿，屏宽10rem，1rem=75；
+                开发基础值为 10
+                
+                
+                */
+
+        /* 如果对设备进行限制，则需要对设备宽度进行判断 */
+            if(deviceWidth>640) deviceWidth = 640;
+            fontSize = deviceWidth/6.4+'px';
+        var scale = 1 / devicePixelRatio;
+
+
+
+
+
+
+        /* 
+            WEBSOCKET
+         */
+        //  webSocket();
+        function webSocket(){
+            if ("WebSocket" in window){
+                alert('支持');
+                let ws = new WebSocket("ws://localhost:9998/echo");
+                ws.onopen = function(){
+                    alert('已连接');
+                    ws.send("我给你发送了一天叫做发送 发送数据");
+
+                };
+                ws.onmessage = function(evt){
+                    var received_msg =  evt.data
+                    alert('数据接收中');
+                    alert('数据接收中');
+                    console.log(received_msg);
+                }
+                ws.onclose = function(){
+                    alert('链接已关闭');
+                }
+                return;
+            }
+            alert('不支持');
+        }
+
+        /*web worker  */
+
+        function webWork(){
+            if(typeof(Worker) !=="undefined"){
+                // alert(typeof(ww));
+                if(typeof(ww) == "undefined"){
+                    
+                    ww = new Worker('webWorkes.js');
+                }
+                ww.onmessage = function(e){
+                    // console.log(document.getElementsByClassName("tt"))
+                   document.getElementsByClassName("tt")[0].innerHTML = e.data;
+                }
+            //    webWORK.terminate();
+            }
+            // alert('不支持');
+            
+        }
+        window.onload = function(){
+            // webWork();
+        }
+    </script>
+</html>
